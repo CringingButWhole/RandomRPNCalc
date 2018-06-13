@@ -5,6 +5,7 @@ using System.Data;
 using System.Drawing;
 using System.Linq;
 using System.Text;
+using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 
@@ -20,11 +21,10 @@ namespace WindowsFormsApp1
         Button BtnToInput = new Button();
         GroupBox RdoButtonGroup = new GroupBox();
         String ActiveStack= "ArrayStack";
-        Stack<Int32> ArrayStack = new Stack<int>();
-        Stack<Int32> ListStack = new Stack<int>();
-        Stack<Int32> MylistStack = new Stack<int>();
-        Button NumpadButton;
-        String Test = "Does git even work yoo";
+        Stack<string> ArrayStack = new Stack<string>();
+        Stack<string> ListStack = new Stack<string>();
+        Stack<string> MylistStack = new Stack<string>();
+        String quickfix;
 
         string[] ButtonArray = new string[] { "1", "2", "3", "+", "4", "5", "6", "-", "7", "8", "9", "*", "(-)", "0", ",", "/" };
         string[] RdoStackOptions = new string[] { "ArrayStack", "ListStack", "MyListStack" };
@@ -93,11 +93,11 @@ namespace WindowsFormsApp1
         public void ToOutput(object sender, EventArgs e)
         {
             if (ActiveStack == "ArrayStack")
-                ArrayStack.Push(Convert.ToInt32(InputTextbox.Text));
+                ArrayStack.Push(Convert.ToString(InputTextbox.Text));
             if (ActiveStack == "ListStack")
-                ListStack.Push(Convert.ToInt32(InputTextbox.Text));
+                ListStack.Push(Convert.ToString(InputTextbox.Text));
             if (ActiveStack == "MyListStack")
-                MylistStack.Push(Convert.ToInt32(InputTextbox.Text));
+                MylistStack.Push(Convert.ToString(InputTextbox.Text));
             PrintStack();
                 InputTextbox.Text = "0";
         }
@@ -174,7 +174,6 @@ namespace WindowsFormsApp1
                         InputTextbox.Text += InputValue;
                     }
                 }
-
             }
             //Input is functie
             else if (Functionlist.Contains(InputValue))
@@ -184,14 +183,17 @@ namespace WindowsFormsApp1
                     double KeerMinEen = Convert.ToDouble(InputTextbox.Text) * -1;
                     InputTextbox.Text = Convert.ToString(KeerMinEen);
                 }
-
-                //else if (dingen met stacks)
-                //{
-                //      voer functie uit
-                //}
+                
                 else
                 {
-
+                    if (InputTextbox.Text.EndsWith("+") || InputTextbox.Text.EndsWith("-") || InputTextbox.Text.EndsWith("*") || InputTextbox.Text.EndsWith("/"))
+                    {
+                       InputTextbox.Text += InputValue;
+                    }
+                    else
+                    {
+                        InputTextbox.Text += InputValue;
+                    }
                 }
             }
         }
@@ -237,40 +239,49 @@ namespace WindowsFormsApp1
             switch (keyData)
             {
                 case Keys.NumPad0:
-                    System.Windows.Forms.MessageBox.Show("00000000");
-                    this.Controls.Find("0", true).FirstOrDefault();
-                    this.NumpadButton.PerformClick();
+                    Button Np0 = this.Controls.Find("0", true).FirstOrDefault() as Button;
+                    Np0.PerformClick();
                     break;
                 case Keys.NumPad1:
-                    //System.Windows.Forms.MessageBox.Show("00000001");
-                    InputTextbox.Text += "1";
+                    Button Np1 = this.Controls.Find("1", true).FirstOrDefault() as Button;
+                    Np1.PerformClick();
                     break;
                 case Keys.NumPad2:
-                    System.Windows.Forms.MessageBox.Show("00000002");
+                    Button Np2 = this.Controls.Find("2", true).FirstOrDefault() as Button;
+                    Np2.PerformClick();
                     break;
                 case Keys.NumPad3:
-                    System.Windows.Forms.MessageBox.Show("00000003");
+                    Button Np3 = this.Controls.Find("3", true).FirstOrDefault() as Button;
+                    Np3.PerformClick();
                     break;
                 case Keys.NumPad4:
-                    System.Windows.Forms.MessageBox.Show("00000004");
+                    Button Np4 = this.Controls.Find("4", true).FirstOrDefault() as Button;
+                    Np4.PerformClick();
                     break;
                 case Keys.NumPad5:
-                    System.Windows.Forms.MessageBox.Show("00000005");
+                    Button Np5 = this.Controls.Find("5", true).FirstOrDefault() as Button;
+                    Np5.PerformClick();
                     break;
                 case Keys.NumPad6:
-                    System.Windows.Forms.MessageBox.Show("00000006");
+                    Button Np6 = this.Controls.Find("6", true).FirstOrDefault() as Button;
+                    Np6.PerformClick();
                     break;
                 case Keys.NumPad7:
-                    System.Windows.Forms.MessageBox.Show("00000007");
+                    Button Np7 = this.Controls.Find("7", true).FirstOrDefault() as Button;
+                    Np7.PerformClick();
                     break;
                 case Keys.NumPad8:
-                    System.Windows.Forms.MessageBox.Show("00000008");
+                    Button Np8 = this.Controls.Find("8", true).FirstOrDefault() as Button;
+                    Np8.PerformClick();
                     break;
                 case Keys.NumPad9:
-                    System.Windows.Forms.MessageBox.Show("00000009");
+                    Button Np9 = this.Controls.Find("9", true).FirstOrDefault() as Button;
+                    Np9.PerformClick();
                     break;
+                    
             }
             return base.ProcessCmdKey(ref msg, keyData);
+            //"+", "-", "*", "/"
         }
     }
 }
