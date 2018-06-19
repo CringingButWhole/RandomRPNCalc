@@ -22,11 +22,12 @@ namespace WindowsFormsApp1
         Button RPNCalc = new Button();
         GroupBox RdoButtonGroup = new GroupBox();
         String ActiveStack= "ArrayStack";
+        Char Function;
         Stack<string> ArrayStack = new Stack<string>();
         Stack<string> ListStack = new Stack<string>();
         Stack<string> MylistStack = new Stack<string>();
 
-
+        string[] ButtonNameArray = new string[] { "NumPad1", "NumPad2", "NumPad3", "Oemplus", "NumPad4", "NumPad5", "NumPad6", "OemMinus", "NumPad7", "NumPad8", "NumPad9", "Multiply", "MButton", "NumPad0", "Oemcomma", "Subtract", "Enter", "C" };
         string[] ButtonArray = new string[] { "1", "2", "3", "+", "4", "5", "6", "-", "7", "8", "9", "*", "(-)", "0", ",", "/" };
         string[] RdoStackOptions = new string[] { "ArrayStack", "ListStack", "MyListStack" };
         #endregion
@@ -70,7 +71,7 @@ namespace WindowsFormsApp1
         {
             //input (clear voor nu)
             this.Controls.Add(BtnToInput);
-            BtnToInput.Name = "c";
+            BtnToInput.Name = "C";
             BtnToInput.Text = "c";
             BtnToInput.Size = new Size(20, 20);
             BtnToInput.Location = new Point(190, 60);
@@ -78,7 +79,7 @@ namespace WindowsFormsApp1
 
             //output
             this.Controls.Add(BtnToOutput);
-            BtnToOutput.Name = ">>";
+            BtnToOutput.Name = "Enter";
             BtnToOutput.Text = ">>";
             BtnToOutput.Size = new Size(20, 20);
             BtnToOutput.Location = new Point(190, 80);
@@ -115,7 +116,11 @@ namespace WindowsFormsApp1
         {
             Double pop1;
             Double pop2;
-            pop1 = Convert.ToDouble(ArrayStack.Pop);
+            pop1 = Convert.ToDouble(ArrayStack.Pop());
+            pop2 = Convert.ToDouble(ArrayStack.Pop());
+            OutputTextbox.Refresh();
+            InputTextbox.Text = Convert.ToString(pop1 + Function + pop2);
+            BtnToOutput.PerformClick();
         }
 
         //Print de Stacks in de OutputBox
@@ -146,7 +151,7 @@ namespace WindowsFormsApp1
             {
                 Button NumpadButton = new Button
                 {
-                    Name = ButtonArray[i],
+                    Name = ButtonNameArray[i],
                     Dock = DockStyle.Fill,
                     Text = ButtonArray[i],
                     Visible = true,
@@ -164,11 +169,12 @@ namespace WindowsFormsApp1
         public void ClkNumpadButton(object sender, EventArgs e)
         {
             Button clickedButton = sender as Button;
-            string InputValue = clickedButton.Name;
+            string InputValue = clickedButton.Text;
 
             //voor onderscheid tussen de knoppen
             List<string> Numberlist = new List<string>() { "1", "2", "3", "4", "5", "6", "7", "8", "9", "0", "," };
             List<string> Functionlist = new List<string>() { "+", "-", "*", "/", "(-)", "c" };
+
 
             //Input is nummer of ','
             if (Numberlist.Contains(InputValue))
@@ -204,7 +210,7 @@ namespace WindowsFormsApp1
                 {
                     if (InputTextbox.Text.EndsWith("+") || InputTextbox.Text.EndsWith("-") || InputTextbox.Text.EndsWith("*") || InputTextbox.Text.EndsWith("/"))
                     {
-                       InputTextbox.Text += InputValue;
+                       
                     }
                     else
                     {
@@ -249,83 +255,13 @@ namespace WindowsFormsApp1
 
         protected override bool ProcessCmdKey(ref Message msg, Keys keyData)
         {
-            switch (keyData)
+            if (ButtonNameArray.Contains(Convert.ToString(keyData)))
             {
-                case Keys.NumPad0:
-                    Button Np0 = this.Controls.Find("0", true).FirstOrDefault() as Button;
-                    Np0.PerformClick();
-                    break;
-                case Keys.NumPad1:
-                    Button Np1 = this.Controls.Find("1", true).FirstOrDefault() as Button;
-                    Np1.PerformClick();
-                    break;
-                case Keys.NumPad2:
-                    Button Np2 = this.Controls.Find("2", true).FirstOrDefault() as Button;
-                    Np2.PerformClick();
-                    break;
-                case Keys.NumPad3:
-                    Button Np3 = this.Controls.Find("3", true).FirstOrDefault() as Button;
-                    Np3.PerformClick();
-                    break;
-                case Keys.NumPad4:
-                    Button Np4 = this.Controls.Find("4", true).FirstOrDefault() as Button;
-                    Np4.PerformClick();
-                    break;
-                case Keys.NumPad5:
-                    Button Np5 = this.Controls.Find("5", true).FirstOrDefault() as Button;
-                    Np5.PerformClick();
-                    break;
-                case Keys.NumPad6:
-                    Button Np6 = this.Controls.Find("6", true).FirstOrDefault() as Button;
-                    Np6.PerformClick();
-                    break;
-                case Keys.NumPad7:
-                    Button Np7 = this.Controls.Find("7", true).FirstOrDefault() as Button;
-                    Np7.PerformClick();
-                    break;
-                case Keys.NumPad8:
-                    Button Np8 = this.Controls.Find("8", true).FirstOrDefault() as Button;
-                    Np8.PerformClick();
-                    break;
-                case Keys.NumPad9:
-                    Button Np9 = this.Controls.Find("9", true).FirstOrDefault() as Button;
-                    Np9.PerformClick();
-                    break;
-                case Keys.Multiply:
-                    Button Multiply = this.Controls.Find("*", true).FirstOrDefault() as Button;
-                    Multiply.PerformClick();
-                    break;
-                case Keys.Subtract:
-                    Button Substract = this.Controls.Find("/", true).FirstOrDefault() as Button;
-                    Substract.PerformClick();
-                    break;
-                case Keys.OemMinus:
-                    Button Minus = this.Controls.Find("-", true).FirstOrDefault() as Button;
-                    Minus.PerformClick();
-                    break;
-                case Keys.Oemplus:
-                    Button Plus = this.Controls.Find("+", true).FirstOrDefault() as Button;
-                    Plus.PerformClick();
-                    break;
-                case Keys.Oemcomma:
-                    Button Comma = this.Controls.Find(",", true).FirstOrDefault() as Button;
-                    Comma.PerformClick();
-                    break;
-                case Keys.Enter:
-                    Button Enter = this.Controls.Find(">>", true).FirstOrDefault() as Button;
-                    Enter.PerformClick();
-                    break;
-                case Keys.Back:
-                    Button Backspace = this.Controls.Find("c", true).FirstOrDefault() as Button;
-                    Backspace.PerformClick();
-                    break;
-                case Keys.Delete:
-                    Button Del = this.Controls.Find("c", true).FirstOrDefault() as Button;
-                    Del.PerformClick();
-                    break;
+                Button Pressed = this.Controls.Find(Convert.ToString(keyData), true).FirstOrDefault() as Button;
+                Pressed.PerformClick();
             }
             return base.ProcessCmdKey(ref msg, keyData);
-            
+
         }
 
     }
