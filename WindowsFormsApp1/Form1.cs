@@ -26,7 +26,7 @@ namespace WindowsFormsApp1
         Stack<string> ListStack = new Stack<string>();
         Stack<string> MylistStack = new Stack<string>();
 
-        string[] ButtonNameArray = new string[] { "NumPad1", "NumPad2", "NumPad3", "Oemplus", "NumPad4", "NumPad5", "NumPad6", "OemMinus", "NumPad7", "NumPad8", "NumPad9", "Multiply", "MButton", "NumPad0", "Oemcomma", "Subtract", "Enter", "Delete"};
+        string[] ButtonNameArray = new string[] { "NumPad1", "NumPad2", "NumPad3", "Oemplus", "NumPad4", "NumPad5", "NumPad6", "OemMinus", "NumPad7", "NumPad8", "NumPad9", "Multiply", "MButton", "NumPad0", "Oemcomma", "Subtract", "Delete"};
         string[] ButtonArray = new string[] { "1", "2", "3", "+", "4", "5", "6", "-", "7", "8", "9", "*", "(-)", "0", ",", "/" };
         string[] RdoStackOptions = new string[] { "ArrayStack", "ListStack", "MyListStack" };
         #endregion
@@ -78,12 +78,11 @@ namespace WindowsFormsApp1
 
             //output
             this.Controls.Add(BtnToOutput);
-            BtnToOutput.Name = "Enter";
+            BtnToOutput.Name = ">>";
             BtnToOutput.Text = ">>";
             BtnToOutput.Size = new Size(20, 20);
             BtnToOutput.Location = new Point(190, 80);
             BtnToOutput.Click += new EventHandler(ToOutput);
-
         }
 
         //Function van ClearText
@@ -107,8 +106,8 @@ namespace WindowsFormsApp1
 
         public void Calculate()
         {
-            String pop1;
-            String pop2;
+            String pop1 = "";
+            String pop2 = "";
             String Calc1;
             //var Calc2 = Convert.ToDouble(Calc1);
             pop1 = (ArrayStack.Pop());
@@ -202,9 +201,9 @@ namespace WindowsFormsApp1
                     double KeerMinEen = Convert.ToDouble(InputTextbox.Text) * -1;
                     InputTextbox.Text = Convert.ToString(KeerMinEen);
                 }
-                
+
                 if ((InputValue == "+" || InputValue == "-" || InputValue == "*" || InputValue == "/") && InputTextbox.Text == "0")
-                {
+                {   
                     Function = InputValue;
                     Calculate();
                 }
@@ -251,8 +250,13 @@ namespace WindowsFormsApp1
                 Button Pressed = this.Controls.Find(Convert.ToString(keyData), true).FirstOrDefault() as Button;
                 Pressed.PerformClick();
             }
+            if ((keyData) == Keys.Enter)
+            {
+                Button Enter = this.Controls.Find(">>", true).FirstOrDefault() as Button;
+                Enter.PerformClick();
+            }
             return base.ProcessCmdKey(ref msg, keyData);
-
+            
         }
 
     }
