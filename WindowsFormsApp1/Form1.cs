@@ -19,12 +19,13 @@ namespace WindowsFormsApp1
         TextBox OutputTextbox = new TextBox();
         Button BtnToOutput = new Button();
         Button BtnToInput = new Button();
+        Button RPNCalc = new Button();
         GroupBox RdoButtonGroup = new GroupBox();
         String ActiveStack= "ArrayStack";
         Stack<string> ArrayStack = new Stack<string>();
         Stack<string> ListStack = new Stack<string>();
         Stack<string> MylistStack = new Stack<string>();
-        String quickfix;
+
 
         string[] ButtonArray = new string[] { "1", "2", "3", "+", "4", "5", "6", "-", "7", "8", "9", "*", "(-)", "0", ",", "/" };
         string[] RdoStackOptions = new string[] { "ArrayStack", "ListStack", "MyListStack" };
@@ -69,6 +70,7 @@ namespace WindowsFormsApp1
         {
             //input (clear voor nu)
             this.Controls.Add(BtnToInput);
+            BtnToInput.Name = "c";
             BtnToInput.Text = "c";
             BtnToInput.Size = new Size(20, 20);
             BtnToInput.Location = new Point(190, 60);
@@ -76,11 +78,18 @@ namespace WindowsFormsApp1
 
             //output
             this.Controls.Add(BtnToOutput);
+            BtnToOutput.Name = ">>";
             BtnToOutput.Text = ">>";
             BtnToOutput.Size = new Size(20, 20);
             BtnToOutput.Location = new Point(190, 80);
             BtnToOutput.Click += new EventHandler(ToOutput);
-            this.AcceptButton = BtnToOutput;
+
+            this.Controls.Add(RPNCalc);
+            RPNCalc.Text = "Calculate";
+            RPNCalc.Size = new Size(100, 20);
+            RPNCalc.Location = new Point(250, 280);
+            RPNCalc.Click += new EventHandler(Calculate);
+
         }
 
         //Function van ClearText
@@ -100,6 +109,13 @@ namespace WindowsFormsApp1
                 MylistStack.Push(Convert.ToString(InputTextbox.Text));
             PrintStack();
                 InputTextbox.Text = "0";
+        }
+
+        public void Calculate(object sender, EventArgs e)
+        {
+            Double pop1;
+            Double pop2;
+            pop1 = Convert.ToDouble(ArrayStack.Pop);
         }
 
         //Print de Stacks in de OutputBox
@@ -204,8 +220,6 @@ namespace WindowsFormsApp1
             RdoButtonGroup.Text = "Select Stack type";
             RdoButtonGroup.Location = new Point(10, 280);
             RdoButtonGroup.Size = new Size(180, 80);
-            RdoButtonGroup.Enabled = true;
-            RdoButtonGroup.Visible = true;
             for (int i = 0; i < 3; i++)
             {
                 RadioButton RdoStacksButton = new RadioButton
@@ -214,7 +228,6 @@ namespace WindowsFormsApp1
                     Text = RdoStackOptions[i],
                     Size = new Size(180, 20),
                     Dock = DockStyle.Bottom,
-                    Visible = true,
                 };
                 //eerste optie is checked
                 if (i==0)
@@ -278,10 +291,42 @@ namespace WindowsFormsApp1
                     Button Np9 = this.Controls.Find("9", true).FirstOrDefault() as Button;
                     Np9.PerformClick();
                     break;
-                    
+                case Keys.Multiply:
+                    Button Multiply = this.Controls.Find("*", true).FirstOrDefault() as Button;
+                    Multiply.PerformClick();
+                    break;
+                case Keys.Subtract:
+                    Button Substract = this.Controls.Find("/", true).FirstOrDefault() as Button;
+                    Substract.PerformClick();
+                    break;
+                case Keys.OemMinus:
+                    Button Minus = this.Controls.Find("-", true).FirstOrDefault() as Button;
+                    Minus.PerformClick();
+                    break;
+                case Keys.Oemplus:
+                    Button Plus = this.Controls.Find("+", true).FirstOrDefault() as Button;
+                    Plus.PerformClick();
+                    break;
+                case Keys.Oemcomma:
+                    Button Comma = this.Controls.Find(",", true).FirstOrDefault() as Button;
+                    Comma.PerformClick();
+                    break;
+                case Keys.Enter:
+                    Button Enter = this.Controls.Find(">>", true).FirstOrDefault() as Button;
+                    Enter.PerformClick();
+                    break;
+                case Keys.Back:
+                    Button Backspace = this.Controls.Find("c", true).FirstOrDefault() as Button;
+                    Backspace.PerformClick();
+                    break;
+                case Keys.Delete:
+                    Button Del = this.Controls.Find("c", true).FirstOrDefault() as Button;
+                    Del.PerformClick();
+                    break;
             }
             return base.ProcessCmdKey(ref msg, keyData);
-            //"+", "-", "*", "/"
+            
         }
+
     }
 }
