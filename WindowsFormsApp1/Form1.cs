@@ -19,15 +19,14 @@ namespace WindowsFormsApp1
         TextBox OutputTextbox = new TextBox();
         Button BtnToOutput = new Button();
         Button BtnToInput = new Button();
-        Button RPNCalc = new Button();
         GroupBox RdoButtonGroup = new GroupBox();
         String ActiveStack= "ArrayStack";
-        Char Function;
+        String Function;
         Stack<string> ArrayStack = new Stack<string>();
         Stack<string> ListStack = new Stack<string>();
         Stack<string> MylistStack = new Stack<string>();
 
-        string[] ButtonNameArray = new string[] { "NumPad1", "NumPad2", "NumPad3", "Oemplus", "NumPad4", "NumPad5", "NumPad6", "OemMinus", "NumPad7", "NumPad8", "NumPad9", "Multiply", "MButton", "NumPad0", "Oemcomma", "Subtract", "Enter", "C" };
+        string[] ButtonNameArray = new string[] { "NumPad1", "NumPad2", "NumPad3", "Oemplus", "NumPad4", "NumPad5", "NumPad6", "OemMinus", "NumPad7", "NumPad8", "NumPad9", "Multiply", "MButton", "NumPad0", "Oemcomma", "Subtract", "Enter", "Delete"};
         string[] ButtonArray = new string[] { "1", "2", "3", "+", "4", "5", "6", "-", "7", "8", "9", "*", "(-)", "0", ",", "/" };
         string[] RdoStackOptions = new string[] { "ArrayStack", "ListStack", "MyListStack" };
         #endregion
@@ -71,7 +70,7 @@ namespace WindowsFormsApp1
         {
             //input (clear voor nu)
             this.Controls.Add(BtnToInput);
-            BtnToInput.Name = "C";
+            BtnToInput.Name = "Delete";
             BtnToInput.Text = "c";
             BtnToInput.Size = new Size(20, 20);
             BtnToInput.Location = new Point(190, 60);
@@ -84,12 +83,6 @@ namespace WindowsFormsApp1
             BtnToOutput.Size = new Size(20, 20);
             BtnToOutput.Location = new Point(190, 80);
             BtnToOutput.Click += new EventHandler(ToOutput);
-
-            this.Controls.Add(RPNCalc);
-            RPNCalc.Text = "Calculate";
-            RPNCalc.Size = new Size(100, 20);
-            RPNCalc.Location = new Point(250, 280);
-            RPNCalc.Click += new EventHandler(Calculate);
 
         }
 
@@ -112,14 +105,18 @@ namespace WindowsFormsApp1
                 InputTextbox.Text = "0";
         }
 
-        public void Calculate(object sender, EventArgs e)
+        public void Calculate()
         {
-            Double pop1;
-            Double pop2;
-            pop1 = Convert.ToDouble(ArrayStack.Pop());
-            pop2 = Convert.ToDouble(ArrayStack.Pop());
-            OutputTextbox.Refresh();
-            InputTextbox.Text = Convert.ToString(pop1 + Function + pop2);
+            String pop1;
+            String pop2;
+            String Calc1;
+            //var Calc2 = Convert.ToDouble(Calc1);
+            pop1 = (ArrayStack.Pop());
+            pop2 = (ArrayStack.Pop());
+            
+            Calc1 = Convert.ToString(pop1 + Function + pop2);
+            
+            InputTextbox.Text = Convert.ToString(Calc1);
             BtnToOutput.PerformClick();
         }
 
@@ -173,7 +170,7 @@ namespace WindowsFormsApp1
 
             //voor onderscheid tussen de knoppen
             List<string> Numberlist = new List<string>() { "1", "2", "3", "4", "5", "6", "7", "8", "9", "0", "," };
-            List<string> Functionlist = new List<string>() { "+", "-", "*", "/", "(-)", "c" };
+            List<string> Functionlist = new List<string>() { "+", "-", "*", "/", "(-)", "C" };
 
 
             //Input is nummer of ','
@@ -206,16 +203,10 @@ namespace WindowsFormsApp1
                     InputTextbox.Text = Convert.ToString(KeerMinEen);
                 }
                 
-                else
+                if ((InputValue == "+" || InputValue == "-" || InputValue == "*" || InputValue == "/") && InputTextbox.Text == "0")
                 {
-                    if (InputTextbox.Text.EndsWith("+") || InputTextbox.Text.EndsWith("-") || InputTextbox.Text.EndsWith("*") || InputTextbox.Text.EndsWith("/"))
-                    {
-                       
-                    }
-                    else
-                    {
-                        InputTextbox.Text += InputValue;
-                    }
+                    Function = InputValue;
+                    Calculate();
                 }
             }
         }
